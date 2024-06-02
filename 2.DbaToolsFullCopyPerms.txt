@@ -1,0 +1,65 @@
+Set-DbatoolsConfig -FullName sql.connection.trustcert -Value $true
+Set-DbatoolsConfig -FullName sql.connection.encrypt -Value $false
+
+
+$DestinationInstance = "aaahChuPC"
+$DestinationDatabase = "CopyThisOver"
+$SourceInstance = "aaahChuPC"
+$SourceDatabase = "CopyThisOverNew"
+$BackupRootDirectory = "C:\Temp\Backups"
+$WorkRootDirectory = $BackupRootDirectory + "\CopyTool"
+$sqlUserFileName = "$(Get-Date -format "dd-MMM-yyyy")_$($SourceInstance)_$($SourceDatabase).sql"
+
+
+#Checks if the database exists
+$DatabaseExists = Get-DbaDatabase -SqlInstance $DestinationInstance -Database $DestinationDatabase
+
+#If the database does exist, we need to keep the current permissions
+
+If ($DatabaseExists -ne  $null) {
+
+ 
+
+        #We'll write down user permissions to a folder, if the folder doesn't exist, we will create it
+        New-Item -ItemType Directory -Force -Path "$($WorkRootDirectory)\SQLUserScripts\"
+        Export-DbaUser -SqlInstance $DestinationInstance -Database $DestinationDatabase -FilePath "$($WorkRootDirectory)\SQLUserScripts\$($sqlUserFileName)" -ErrorAction Stop
+
+
+        #Afterwards we'll take a copy_only backup and transfer that to the the instance/database that we want
+        New-Item -ItemType Directory -Force -Path "$($WorkRootDirectory)\Backup\"
+        Copy-DbaDatabase -Source $SourceInstance -Destination $DestinationInstance -Database $SourceDatabase -NewName $DestinationDatabase -SharedPath "$($WorkRootDirectory)\Backup\" -BackupRestore -WithReplace 
+
+
+        #Sets database owner to sa
+        Set-DbaDbOwner -SqlInstance $DestinationInstance -Database $DestinationDatabase
+
+ 
+
+        #Fetches all of the users
+        (Get-DbaDbUser -SqlInstance $DestinationInstance -Database $DestinationDatabase -ExcludeSystemUser | Where-Object {$_.Name -notlike 'sys' -or $UserSkipList -contains $_.Name}) | Remove-DbaDbUser
+
+ 
+
+        #Executes the script with permissions created earlier to the destination db
+        Invoke-Sqlcmd -ServerInstance $DestinationInstance -InputFile "$($WorkRootDirectory)\SQLUserScripts\$($sqlUserFileName)" -ErrorAction Continue
+}
+
+ 
+
+#If the database does not exist, we just creatge a new copy of the database
+If ($DatabaseExists -eq  $null) {
+
+ 
+
+        #We'll write down user permissions to a folder, if the folder doesn't exist, we will create it
+        New-Item -ItemType Directory -Force -Path "$($WorkRootDirectory)\SQLUserScripts\"
+
+ 
+        #Afterwards we'll take a copy_only backup and transfer that to the the instance/database that we want
+        New-Item -ItemType Directory -Force -Path "$($WorkRootDirectory)\Backup\"
+        Copy-DbaDatabase -Source $SourceInstance -Destination $DestinationInstance -Database $SourceDatabase -NewName $DestinationDatabase -SharedPath "$($WorkRootDirectory)\Backup\" -BackupRestore 
+
+
+        #Sets database owner to sa
+        Set-DbaDbOwner -SqlInstance $DestinationInstance -Database $DestinationDatabase
+}

@@ -1,0 +1,15 @@
+#Install-Module dbatools
+
+Set-ExecutionPolicy RemoteSigned
+Import-Module dbatools 
+
+#Demo -  Create a dummy database on the 2019 -- CREATE DATABASE CopyThisOver
+
+Set-DbatoolsConfig -FullName sql.connection.trustcert -Value $true 
+Set-DbatoolsConfig -FullName sql.connection.encrypt -Value $false
+
+Copy-DbaDatabase -Source AAAHCHUPC\SQL2019 -Destination aaahChuPC -Database CopyThisOver -BackupRestore -SharedPath C:\Temp\Backups
+Export-DbaUser -SqlInstance AAAHCHUPC\SQL2019 -FilePath C:\temp\Backups\sql2005-users.sql -Database CopyThisOver
+
+
+Set-ExecutionPolicy Restricted
