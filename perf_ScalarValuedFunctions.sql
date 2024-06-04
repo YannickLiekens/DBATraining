@@ -42,7 +42,7 @@ And I’m adding a data filter, just so I don’t have to wait for too long.
 SET STATISTICS TIME,IO ON
 SELECT Id,dbo.svf_YesWeCan(Id) AmountOfVotes
 FROM dbo.Users
-WHERE CreationDate > '20130501' AND CreationDate < '20130601'
+WHERE CreationDate > '20100501' AND CreationDate < '20100601'
 GO
 
 
@@ -89,7 +89,7 @@ And then, we can use it in our query:
 SELECT Id,TVF.Total
 FROM dbo.Users
 CROSS APPLY dbo.TVF_YesWeCan(Id) TVF
-WHERE CreationDate > '20130501' AND CreationDate < '20130601'
+WHERE CreationDate > '20100501' AND CreationDate < '20100601'
 
 /*
 
@@ -117,7 +117,7 @@ SET COMPATIBILITY_LEVEL = 150
 SET STATISTICS TIME,IO ON
 SELECT Id,dbo.svf_YesWeCan(Id)
 FROM dbo.Users
-WHERE CreationDate > '20130501' AND CreationDate < '20130601'
+WHERE CreationDate > '20100501' AND CreationDate < '20100601'
 GO
 
 

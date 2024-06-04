@@ -12,7 +12,7 @@ because this is what you start at
 --DROP INDEX NCI_DisplayName ON dbo.Users 
 -- Create index on reputation
 
-use StackOverflow2013
+use StackOverflow2010
 GO
 
 CREATE INDEX NCI_Reputation ON dbo.Users(Reputation)
@@ -76,13 +76,12 @@ Outside
 */
 
 
-EXEC dbo.usp_UsersByReputation @Reputation =2
+EXEC dbo.UsersByReputation @Reputation =2
 WITH RECOMPILE;
 GO
-EXEC dbo.usp_UsersByReputation @Reputation =1
+EXEC dbo.UsersByReputation @Reputation =1
 WITH RECOMPILE;
 GO
-
 
 
 
