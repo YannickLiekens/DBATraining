@@ -3,6 +3,8 @@
 
 
 /* CTEs are very good tool, look good and can be very useful, however, they don't always work as expected*/
+USE StackOverflow2010
+GO
 
 ;WITH Cte1
     AS ( SELECT u.Id FROM dbo.Users AS u WHERE u.Id = 1 )

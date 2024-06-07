@@ -1,9 +1,9 @@
-USE StackOverflow2013
+USE StackOverflow2010
 GO
 
 exec DropIndexes
 
-ALTER DATABASE [StackOverflow2013] SET COMPATIBILITY_LEVEL = 130
+ALTER DATABASE [StackOverflow2010] SET COMPATIBILITY_LEVEL = 130
 GO
 SET STATISTICS TIME,IO ON 
 -- Should be done in 1.Scalar... if not create it now.

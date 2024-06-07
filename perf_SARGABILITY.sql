@@ -25,7 +25,7 @@ Two ways of using your index
 * Scan
 
 Seek : Can directly start at where your predicate has to be, and run till it fetches all the data
-SCan : Just scan over the entire index
+Scan : Just scan over the entire index
 
 */
 
@@ -46,7 +46,7 @@ SELECT COUNT(*)
 
 
 
- -- Starting with a SARG
+ -- Sarg?
  SELECT COUNT(*)
  FROM dbo.Users
  WHERE DisplayName LIKE 'a%'

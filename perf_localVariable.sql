@@ -1,7 +1,11 @@
-/* Anoter common mistake is the use of variables.
+/* Anoter common mistake is the use of local variables.
  */
 
  SET STATISTICS TIME,IO ON
+
+Use StackOverflow2010
+GO
+
 
 CREATE NONCLUSTERED INDEX NCI_Reputation ON dbo.Users(Reputation)
 
@@ -19,7 +23,7 @@ SELECT COUNT(*) FROM dbo.Users
 
 /*
 Lets run it without variable*/
- SELECT * FROM dbo.Users 
+SELECT * FROM dbo.Users 
 WHERE Reputation > 50000
 
 

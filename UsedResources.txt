@@ -1,0 +1,9 @@
+WhoIsActive
+* https://whoisactive.com/
+Blitz functions by Brent Ozar
+* https://www.brentozar.com/responder/
+* https://github.com/BrentOzarULTD/SQL-Server-First-Responder-Kit
+Glenn Berry Diagnostic queries:
+* https://glennsqlperformance.com/resources/
+SQLServer updates
+* https://sqlserverupdates.com/

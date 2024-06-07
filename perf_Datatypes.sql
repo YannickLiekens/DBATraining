@@ -6,10 +6,22 @@ Displayname is an NVARCHAR(40)
 Let's start by seeing how it looks like when we use the correct data types
 */
 
+
+Use StackOverflow2010
+GO
+dbo.dropIndexes
+
 CREATE INDEX NCI_displayName ON dbo.Users( displayName )
 
 
 DECLARE @Input NVARCHAR(40)
+SET @Input = 'Brent Ozar'
+
+SELECT * FROM dbo.Users
+WHERE displayName = @Input
+GO
+
+DECLARE @Input VARCHAR(40)
 SET @Input = 'Brent Ozar'
 
 SELECT * FROM dbo.Users
@@ -37,6 +49,7 @@ GO
 Will be making a copy of the users database and changing DisplayName to VARCHAR(40)
 */
 
+DROP TABLE IF EXISTS dbo.UsersVARCHAR
 SELECT * INTO dbo.UsersVARCHAR
 FROM dbo.Users
 
@@ -120,4 +133,5 @@ DROP TABLE dbo.UsersVARCHAR
 /* 
 * No index usage or bad index usage
 * More resources to build plans AND memory requested
+https://learn.microsoft.com/en-us/sql/t-sql/data-types/data-type-precedence-transact-sql?view=sql-server-ver16
 */ 
